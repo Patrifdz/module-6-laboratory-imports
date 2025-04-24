@@ -4,8 +4,9 @@ let userPoints : number= 0;
 const pointsPrinted = document.getElementById("points") as HTMLDivElement;
 const giveCardButton = document.getElementById("giveCard") as HTMLButtonElement;
 const messageUser = document.getElementById("message") as HTMLHeadingElement;
-const plantarmeButton = document.getElementById("plantarme") as HTMLButtonElement;
+const standButton = document.getElementById("stand") as HTMLButtonElement;
 const playAgainButton = document.getElementById("playAgain") as HTMLButtonElement;
+const whatIfButton = document.getElementById("whatIf") as HTMLButtonElement;
 
 const printPoints = ( ) => {
         pointsPrinted.textContent = userPoints.toString( );
@@ -28,10 +29,6 @@ const randomCard = ( ) : number => {
     } else {
         userPoints += newCard;
     }   
-    if(userPoints > 7.5) {
-        messageUser.textContent = "GAME OVER";    
-        giveCardButton.disabled = true;
-    } 
     return newCard;
 }
 
@@ -59,16 +56,32 @@ const giveCard = ( ) => {
     const cardValue = randomCard();
     printPoints( );
     showCard(cardValue);
+    standButton.disabled = false;
+    playAgainButton.disabled = false;
+    if(userPoints > 7.5) {
+        messageUser.textContent = "GAME OVER";    
+        giveCardButton.disabled = true;
+        standButton.disabled = true;
+    }
 }
 
 giveCardButton.addEventListener("click", giveCard);
-plantarmeButton.addEventListener("click",( ) =>showMessageUser(userPoints));
+
+standButton.addEventListener("click",( ) =>{
+    showMessageUser(userPoints)
+    whatIfButton.disabled = false;
+});
+
 playAgainButton.addEventListener("click", ( ) => {
     userPoints = 0;
     printPoints( );
     messageUser.textContent = "";
     giveCardButton.disabled = false;
+    whatIfButton.disabled = true;
+    standButton.disabled = true;
 })
+
+whatIfButton.addEventListener("click", ( ) => showCard(randomCard( )));
 
     
 
