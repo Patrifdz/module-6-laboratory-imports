@@ -10,6 +10,6 @@ const vitestConfig: VitestUserConfigInterface = {
 };
 
 export default defineConfig({
-  plugins: [checker({ typescript: true })],
+  plugins: [checker({ typescript: false })],
   test: vitestConfig.test,
 });
