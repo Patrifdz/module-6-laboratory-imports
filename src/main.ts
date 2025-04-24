@@ -1,13 +1,23 @@
 import "./style.css";
 
 let userPoints : number= 0;
-const messageUser= document.getElementById("message") as HTMLHeadingElement;
+const pointsPrinted = document.getElementById("points") as HTMLDivElement;
+const giveCardButton = document.getElementById("giveCard") as HTMLButtonElement;
+const messageUser = document.getElementById("message") as HTMLHeadingElement;
+const plantarmeButton = document.getElementById("plantarme") as HTMLButtonElement;
+const playAgainButton = document.getElementById("playAgain") as HTMLButtonElement;
 
-const printPoints = (points : number ) => {
-    const pointsPrinted = document.getElementById("points");
-    if(pointsPrinted instanceof HTMLDivElement) {
-        pointsPrinted.textContent = points.toString();
-    }
+const printPoints = ( ) => {
+        pointsPrinted.textContent = userPoints.toString( );
+};
+
+const showCard = ( card: number) : void =>  {
+    const imageCard = document.getElementById("imageCard");
+    if(imageCard instanceof HTMLImageElement) {
+        if(card <= 12) {
+            imageCard.src=`./src/assets/images/${card}.jpg`;
+        } else imageCard.src=`./src/assets/images/back.jpg`;
+    } 
 }
 
 const randomCard = ( ) : number => {
@@ -20,13 +30,13 @@ const randomCard = ( ) : number => {
     }   
     if(userPoints > 7.5) {
         messageUser.textContent = "GAME OVER";    
+        giveCardButton.disabled = true;
     } 
     return newCard;
 }
 
 const showMessageUser = (totalPoints : number) : void => {
-    let message;
-    if(messageUser instanceof HTMLHeadingElement) {
+    let message : string= "";
         switch (totalPoints) {
             case 4 : 
             message = "Has sido muy conservador";
@@ -42,25 +52,25 @@ const showMessageUser = (totalPoints : number) : void => {
             message = "¡Lo has clavado! ¡Enhorabuena!";
             break;
         }
-    }
+        messageUser.textContent = message;
+        giveCardButton.disabled = true;
 }
 const giveCard = ( ) => {
     const cardValue = randomCard();
-    printPoints(userPoints);
+    printPoints( );
     showCard(cardValue);
-    showMessageUser(userPoints);
-}
-const buttonGiveCard = document.getElementById("giveCard");
-if(buttonGiveCard instanceof HTMLButtonElement) {
-    buttonGiveCard.addEventListener("click", giveCard);
 }
 
-const showCard = ( card: number) : void =>  {
-    const imageCard = document.getElementById("imageCard");
-    if(imageCard instanceof HTMLImageElement) {
-        if(card <= 12) {
-            imageCard.src=`./src/assets/images/${card}.jpg`;
-        } else imageCard.src=`./src/assets/images/back.jpg`;
-    } 
-}
+giveCardButton.addEventListener("click", giveCard);
+plantarmeButton.addEventListener("click",( ) =>showMessageUser(userPoints));
+playAgainButton.addEventListener("click", ( ) => {
+    userPoints = 0;
+    printPoints( );
+    messageUser.textContent = "";
+    giveCardButton.disabled = false;
+})
+
+    
+
+
 
