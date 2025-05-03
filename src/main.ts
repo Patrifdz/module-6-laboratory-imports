@@ -1,17 +1,29 @@
 import "./style.css";
 
 let userPoints : number= 0;
-const pointsPrinted = document.getElementById("points") as HTMLDivElement;
-const giveCardButton = document.getElementById("giveCard") as HTMLButtonElement;
-const messageUser = document.getElementById("message") as HTMLHeadingElement;
-const standButton = document.getElementById("stand") as HTMLButtonElement;
-const playAgainButton = document.getElementById("playAgain") as HTMLButtonElement;
-const whatIfButton = document.getElementById("whatIf") as HTMLButtonElement;
+let card : number = 0;
+
+const giveCardButton = document.getElementById("giveCard");
+const messageUser = document.getElementById("message");
+const standButton = document.getElementById("stand");
+const playAgainButton = document.getElementById("playAgain");
+const whatIfButton = document.getElementById("whatIf");
+
+
+const randomNum = ( ) => Math.floor(Math.random() *10) +1;
+
+const getCard = (num : number ) : number =>  num>7 ?  card = num + 2 : card = num;
+
+const getPointsCard = (num : number ) : number => num>7 ? 0.50 : num;
+
+const getTotalPoints = (points : number) : number =>  userPoints+= points;
 
 const printPoints = ( ) => {
+    const pointsPrinted = document.getElementById("points");
+    if(pointsPrinted !== null && pointsPrinted !== undefined && pointsPrinted instanceof HTMLDivElement) {
         pointsPrinted.textContent = userPoints.toString( );
+    }
 };
-
 const showCard = ( card: number) : void =>  {
     const imageCard = document.getElementById("imageCard");
     if(imageCard instanceof HTMLImageElement) {
@@ -19,17 +31,6 @@ const showCard = ( card: number) : void =>  {
             imageCard.src=`./src/assets/images/${card}.jpg`;
         } else imageCard.src=`./src/assets/images/back.jpg`;
     } 
-}
-
-const randomCard = ( ) : number => {
-    let newCard= Math.floor(Math.random() *10) +1;
-    if(newCard>7) {
-        newCard += 2;
-        userPoints += 0.50;
-    } else {
-        userPoints += newCard;
-    }   
-    return newCard;
 }
 
 const showMessageUser = (totalPoints : number) : void => {
@@ -49,41 +50,82 @@ const showMessageUser = (totalPoints : number) : void => {
             message = "¡Lo has clavado! ¡Enhorabuena!";
             break;
         }
-        messageUser.textContent = message;
-        giveCardButton.disabled = true;
+        if(messageUser instanceof HTMLHeadingElement) {
+            messageUser.textContent = message;
+        }
+        if(giveCardButton instanceof HTMLButtonElement) {
+            enablingButton(giveCardButton);
+        }
 }
-const giveCard = ( ) => {
-    const cardValue = randomCard();
-    printPoints( );
-    showCard(cardValue);
-    standButton.disabled = false;
-    playAgainButton.disabled = false;
+
+const checkPointsGame = ( ) => {
     if(userPoints > 7.5) {
-        messageUser.textContent = "GAME OVER";    
-        giveCardButton.disabled = true;
-        standButton.disabled = true;
+        if(messageUser instanceof HTMLHeadingElement) {
+            messageUser.textContent = "GAME OVER";    
+        }
+        if(giveCardButton instanceof HTMLButtonElement && standButton instanceof HTMLButtonElement) {
+            enablingButton(giveCardButton);
+            enablingButton(standButton);
+        }
     }
 }
 
-giveCardButton.addEventListener("click", giveCard);
+const enablingButton = (button : HTMLButtonElement) : void => {
+    if (button.disabled) {
+        button.disabled = false;
+    } else button.disabled = true;
+}
 
-standButton.addEventListener("click",( ) =>{
-    showMessageUser(userPoints)
-    whatIfButton.disabled = false;
-});
-
-playAgainButton.addEventListener("click", ( ) => {
-    userPoints = 0;
+const giveCard = ( ) => {
+    getCard(randomNum());
+    showCard(card);
+    let pointsCard : number = getPointsCard(card);
+    let totalPoints : number = getTotalPoints(pointsCard);
     printPoints( );
-    messageUser.textContent = "";
-    giveCardButton.disabled = false;
-    whatIfButton.disabled = true;
-    standButton.disabled = true;
-})
+    checkPointsGame( );
+    if(standButton instanceof HTMLButtonElement) {
+        enablingButton(standButton);
+    }
+    if(playAgainButton instanceof HTMLButtonElement) {
+        enablingButton(playAgainButton);
+    }
+}
 
-whatIfButton.addEventListener("click", ( ) => showCard(randomCard( )));
+if (giveCardButton !== null && giveCardButton !== undefined && giveCardButton instanceof HTMLButtonElement) {
+    giveCardButton.addEventListener("click", giveCard);
+};
 
-    
+if(standButton instanceof HTMLButtonElement) {
+    standButton.addEventListener("click",( ) =>{
+        showMessageUser(userPoints)
+        if(whatIfButton instanceof HTMLButtonElement) {
+            enablingButton(whatIfButton);
+        }
+    });
+}
 
+if(playAgainButton instanceof HTMLButtonElement) {
+    playAgainButton.addEventListener("click", ( ) => {
+        userPoints = 0;
+        printPoints( );
+        if(messageUser instanceof HTMLHeadingElement) {
+            messageUser.textContent = "";
+        }
+        // if(giveCardButton instanceof HTMLButtonElement) {
+        //     enablingButton(giveCardButton);
+        // }
+        if(whatIfButton instanceof HTMLButtonElement) {
+            enablingButton(whatIfButton);
+        }
+        if(standButton instanceof HTMLButtonElement) {
+            enablingButton(standButton);
+        }
+    })
+}
 
-
+if(whatIfButton instanceof HTMLButtonElement) {
+    whatIfButton.addEventListener("click", ( ) => {
+        getCard(randomNum( ));
+        showCard(card);
+    });
+}
