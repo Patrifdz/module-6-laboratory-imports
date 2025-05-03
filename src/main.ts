@@ -1,7 +1,17 @@
 import "./style.css";
+interface MessageOnStanding  {
+
+}
 
 let userPoints : number= 0;
 let card : number = 0;
+let message = "";
+const messageOnStanding = {
+    messageFor4 : "Has sido muy conservador",
+    messageFor5 : "Te ha entrado el canguelo eh?",
+    messageFor6and7 : "Casi casi...",
+    messageFor7andHalf : "¡Lo has clavado! ¡Enhorabuena!",
+}
 
 const giveCardButton = document.getElementById("giveCard");
 const messageUser = document.getElementById("message");
@@ -33,47 +43,48 @@ const showCard = ( card: number) : void =>  {
     } 
 }
 
-const showMessageUser = (totalPoints : number) : void => {
-    let message : string= "";
-        switch (totalPoints) {
-            case 4 : 
-            message = "Has sido muy conservador";
-            break;
-            case 5: 
-            message = "Te ha entrado el canguelo eh?";
-            break;
-            case 6:
-            case 7: 
-            message = "Casi casi...";
-            break;
-            case 7.5: 
-            message = "¡Lo has clavado! ¡Enhorabuena!";
-            break;
-        }
-        if(messageUser instanceof HTMLHeadingElement) {
-            messageUser.textContent = message;
-        }
-        if(giveCardButton instanceof HTMLButtonElement) {
-            enablingButton(giveCardButton);
-        }
+const getMessageOnStanding = (totalPoints : number ) : void => {
+    switch (totalPoints) {
+        case 4 : 
+        message = messageOnStanding.messageFor4;
+        break;
+        case 5: 
+        message = messageOnStanding.messageFor5;
+        break;
+        case 6:
+        case 7: 
+        message = messageOnStanding.messageFor6and7;
+        break;
+        case 7.5: 
+        message = messageOnStanding.messageFor7andHalf;
+        break;
+    }
 }
 
-const checkPointsGame = ( ) => {
+const showMessage = (message : string ) : void => {
+    if(messageUser instanceof HTMLHeadingElement) {
+        messageUser.textContent = message;
+    }
+}
+
+const checkPointsOnPlaying = ( ) => {
     if(userPoints > 7.5) {
-        if(messageUser instanceof HTMLHeadingElement) {
-            messageUser.textContent = "GAME OVER";    
+        message = "GAME OVER";
+        showMessage(message);
+        if(giveCardButton instanceof HTMLButtonElement) {
+            giveCardButton.disabled = true;
         }
-        if(giveCardButton instanceof HTMLButtonElement && standButton instanceof HTMLButtonElement) {
-            enablingButton(giveCardButton);
-            enablingButton(standButton);
+        if(standButton instanceof HTMLButtonElement) {
+            standButton.disabled = true;
         }
     }
 }
 
-const enablingButton = (button : HTMLButtonElement) : void => {
-    if (button.disabled) {
-        button.disabled = false;
-    } else button.disabled = true;
+const checkPointsOnStanding = ( ) => {
+    getMessageOnStanding(userPoints);
+    if(messageUser instanceof HTMLHeadingElement) {
+        messageUser.textContent = message;
+    }
 }
 
 const giveCard = ( ) => {
@@ -82,13 +93,13 @@ const giveCard = ( ) => {
     let pointsCard : number = getPointsCard(card);
     let totalPoints : number = getTotalPoints(pointsCard);
     printPoints( );
-    checkPointsGame( );
     if(standButton instanceof HTMLButtonElement) {
-        enablingButton(standButton);
+        standButton.disabled = false;
     }
     if(playAgainButton instanceof HTMLButtonElement) {
-        enablingButton(playAgainButton);
+        playAgainButton.disabled = false;
     }
+    checkPointsOnPlaying( );
 }
 
 if (giveCardButton !== null && giveCardButton !== undefined && giveCardButton instanceof HTMLButtonElement) {
@@ -97,9 +108,12 @@ if (giveCardButton !== null && giveCardButton !== undefined && giveCardButton in
 
 if(standButton instanceof HTMLButtonElement) {
     standButton.addEventListener("click",( ) =>{
-        showMessageUser(userPoints)
+        checkPointsOnStanding( );
         if(whatIfButton instanceof HTMLButtonElement) {
-            enablingButton(whatIfButton);
+            whatIfButton.disabled = false;
+        }
+        if(giveCardButton instanceof HTMLButtonElement) {
+            giveCardButton.disabled = true;
         }
     });
 }
@@ -115,10 +129,10 @@ if(playAgainButton instanceof HTMLButtonElement) {
         //     enablingButton(giveCardButton);
         // }
         if(whatIfButton instanceof HTMLButtonElement) {
-            enablingButton(whatIfButton);
+            whatIfButton.disabled = true;
         }
         if(standButton instanceof HTMLButtonElement) {
-            enablingButton(standButton);
+            standButton.disabled = false;
         }
     })
 }
