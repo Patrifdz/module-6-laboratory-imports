@@ -1,12 +1,16 @@
 import "./style.css";
-interface MessageOnStanding  {
-
-}
+interface MessageOnStanding {
+    messageFor4: string;
+    messageFor5: string;
+    messageFor6and7: string;
+    messageFor7andHalf: string;
+    messageForMore7andHalf: string;
+  }
 // Variables que se van a usar:
 let userPoints : number= 0;
 let card : number = 0;
 let message = "";
-const typeMessage = {
+const typeMessage : MessageOnStanding = {
     messageFor4 : "Has sido muy conservador",
     messageFor5 : "Te ha entrado el canguelo eh?",
     messageFor6and7 : "Casi casi...",
