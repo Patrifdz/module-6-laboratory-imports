@@ -22,7 +22,7 @@ body {
   display: flex;
   place-items: center;
   min-width: 100vw;
-  min-height: 100vh;
+  height: 100dvh;
   font-family: 'MyFont';
   background-color: beige;
 }
