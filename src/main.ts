@@ -74,8 +74,10 @@ const getMessage = (totalPoints : number ) : void => {
             case 7.5: 
             message = typeMessage.messageFor7andHalf;
             break;
+            default:
+            message = "";
         }
-    }
+    } 
 }
 
 // Función para enseñar el mensaje: 
