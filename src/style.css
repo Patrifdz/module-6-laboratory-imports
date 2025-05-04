@@ -33,7 +33,7 @@ h1 {
   margin: 0.25em;
 }
 
-h2 {
+h2#instructions {
   font-size: 2em;
 }
 

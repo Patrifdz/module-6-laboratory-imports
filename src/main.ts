@@ -87,9 +87,8 @@ const showMessage = ( ) : void => {
 
 // Función para checkear los puntos y según los mismos, llamar a la función de generar mensaje o generar mensaje y enseñarlo si la puntuación acumulada es mayor de 7,50, ya que supondría que el jugador ha perdido. 
 const checkPoints = ( ) => {
-        if(userPoints === 4 || userPoints === 5 || userPoints === 6 || userPoints === 7 || userPoints === 7.5 ) {
-                getMessage(userPoints);
-            } else if (userPoints > 7.5) {
+    getMessage(userPoints); 
+           if (userPoints > 7.5) {
                 if(giveCardButton instanceof HTMLButtonElement && standButton instanceof HTMLButtonElement && playAgainButton instanceof HTMLButtonElement) {
                     getMessage(userPoints);
                     showMessage( );
