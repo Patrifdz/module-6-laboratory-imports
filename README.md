@@ -4,7 +4,7 @@ Para la parte de cada módulo en la que te planteamos ejercicios con JavaScript 
 
 Pasos:
 
-- Clonate el proyecto.
+- Clona el proyecto.
 - Instala las dependencias con `npm install`.
 - Ejecuta el sandbox con `npm run dev`.
 - Abre el navegador en `http://localhost:5173/` (si ese puerto no te funciona, mira en la consola donde has hecho el build, puede que este ocupado y se haya abierto en otro puerto).
@@ -15,22 +15,21 @@ Pasos:
 
 Puedes utilizar como punto de partida la sandbox de JS o la sandbox de TS (recomendamos TS) y subir el resultado a tu repositorio de GitHub.
 
-## 🎴 Juego de las siete y media
+##  Juego de las siete y media
 
-Vamos a implementar el juego de cartas de las **7 y media** en modo solitario.
+Vamos a implementar el juego de cartas de las **7 1/2** en modo solitario.
 
-### Reglas del juego
+Por si no conocéis las reglas del juego, os las explicamos brevemente:
 
-El juego de las siete y media es un juego de cartas español que tradicionalmente se juega con varios jugadores, pero también se puede adaptar para un solo jugador. Para jugar en solitario, sigue estos pasos:
+El juego de las siete y media es un juego de cartas español que tradicionalmente se juega con varios jugadores, pero también se puede adaptar para un solo jugador. 
+
+Para jugar en solitario, sigue estos pasos:
 
 1. Baraja una baraja española de 40 cartas y colócalas boca abajo sobre la mesa.
 2. Gira la primera carta y colócala boca arriba; será la carta inicial del jugador.
 3. Decide si **tomar otra carta** o **plantarte**. El objetivo es sumar 7,5 puntos o acercarte lo máximo posible sin pasarte.
-4. Si tomas otra carta:
-   - Gira la siguiente carta boca arriba.
-   - Añade su valor a tu mano.
-   - Puedes seguir pidiendo cartas hasta que la suma supere 7,5 (pierdes) o decidas plantarte.
-5. Si te plantas, tu turno termina. Anota tu puntuación y finaliza la partida.
+4. Si decides tomar otra carta, gira la siguiente carta boca arriba. Añade el valor de esta carta a tu mano y decide si deseas tomar otra carta o quedarte con lo que tienes. Puedes tomar tantas cartas como desees, pero si la suma de los valores de las cartas de tu mano supera los 7,5 puntos, pierdes automáticamente la partida.
+5. Si decides quedarte con la carta que tienes, tu turno termina. Anota tu puntuación y pasa al siguiente turno.
 6. Continúa hasta agotar la baraja o detenerte.
 7. Si logras exactamente 7,5 puntos, **¡ganas!**; si no, tu objetivo es la puntuación más cercana a 7,5.
 
@@ -38,67 +37,55 @@ El juego de las siete y media es un juego de cartas español que tradicionalment
 - **As**: 1 punto  
 - **2–7**: valor nominal (2–7 puntos)  
 - **Sota (10), Caballo (11) y Rey (12)**: 0,5 puntos cada una  
-
 ---
 
-## 📋 Apartados obligatorios
+##  Apartados obligatorios
 
 Arranca la aplicación con la sandbox de **TypeScript**.
 
-1. ### Mostrar puntuación  
-   - Crea una variable para almacenar la puntuación, inicializada en `0`.  
-   - Añade en el HTML:
-     ```html
-     <div id="points">0</div>
-     ```
-   - Implementa en TS:
+### 1. Mostrar puntuación  
+Arranca por crear una variable que almacena la puntuación que lleve el usuario:
+
+- Crea una variable para almacenar la puntuación, inicialmente será 0.
+- Crea un div en el HTML en el que podamos mostrar la puntuación.
+- Crea una función que se llame muestraPuntuacion que muestre la puntuación actual en el div.
+- Invoca a la función en cuanto este disponible el DOM.
+
+Más adelante invocaremos muestraPuntuación cada vez que el usuario pida carta nueva.
+
+### 2. Pedir carta  
+Implementa la funcionalidad de pedir carta, ¿En qué consiste?
+
+- Hay que generar una función que nos devuelva una carta aleatoria, la podemos llamar dameCarta.
+- Para ello exponemos un botón en el HTML que al pulsarlo llame a la función dameCarta.
+- Para probar este caso, de momento muestra la carta elegida por consola.
+### Pistas:
+- Las cartas tienen los siguientes valores: 1,2,3,4,5,6,7,10,11,12
+- Hasta ahora math.Random lo hemos usado para obtener números aleatores de un rango continuo (por ejemplo de 0 a 100), en este caso nos queremos saltar el 8 y el 9, SPOILER ALERT (piensa en una solución antes de leer la siguiente pista :))... ¿Cómo podemos hacerlo?
+- Puedes plantear generar un número aleatorio entre 1 y 10, si el número es mayor que 7, le sumas 2 y ya tienes los valores que necesitabas.
+
+ ### 3. Mostrar carta  
+   - Crea una función que se llame muestraCarta que muestre la carta que le pasemos por parámetro, la firma podría ser tal que así:
+
      ```ts
-     function muestraPuntuacion(): void {
-       const el = document.getElementById('points')!;
-       el.textContent = puntuacion.toString();
-     }
-
-     document.addEventListener('DOMContentLoaded', muestraPuntuacion);
+     const mostrarCarta = (carta: number): void;
      ```
-   - Más adelante, vuelve a llamarla cada vez que el usuario pida una nueva carta.
+   ### Pistas
+   - Añade un img en el HTML en el que podamos mostrar la carta.
+- Ese *img* va a tener un *src* que va a ser la url de la imagen de la carta, de momento, utiliza la imagen de carta boca abajo: https://github.com/Lemoncode/fotos-ejemplos/blob/main/cartas/back.jpg
+- Crea una función mostrar carta, para mapear valor a imagen de carta puedes utilizar un switch para hacer la conversión, recuerda que más arriba tienes los enlaces a las imágenes de las cartas.
+- Cuando el usuario pulse en el bóton *Pide Carta* llama a pideCarta y con el resultado llama a mostrarCarta.
 
-2. ### Pedir carta  
-   - Genera una función `dameCarta(): number` que devuelva un valor aleatorio de `{1,2,3,4,5,6,7,10,11,12}`.  
-     - **Pista:** genera un número de 1 a 10; si es mayor que 7, súmale 2.  
-   - En el HTML:
-     ```html
-     <button id="giveCard">Pide Carta</button>
-     ```
-   - Al hacer click, llama a `dameCarta()` y muestra el resultado en consola para probar.
+### 3. Sumar puntuación  
+Una vez que le hemos dado la carta al usuario, tenemos que sumar la puntuación de la carta a la puntuación total.
 
-3. ### Mostrar carta  
-   - Inserta en el HTML:
-     ```html
-     <img
-       id="imageCard"
-       src="https://github.com/Lemoncode/fotos-ejemplos/raw/main/cartas/back.jpg"
-       alt="Carta boca abajo"
-     />
-     ```
-   - Implementa:
-     ```ts
-     const mostrarCarta = (carta: number): void => {
-       // Mapear valor de carta → URL de imagen (switch o lookup)
-       // Actualizar imageCard.src
-     }
-     ```
-   - Al pulsar “Pide Carta”, llama a `dameCarta()`, luego a `mostrarCarta(carta)`.
+### Pistas
+- Tenemos un div donde mostramos la puntuación y tenemos una variable donde la almacenamos.
+- Suma el nuevo valor y llama a la función que creamos previamente para mostrar la información.
 
-4. ### Sumar puntuación  
-   - Tras repartir la carta, suma su valor a la variable `puntuacion`.  
-   - Vuelve a llamar a `muestraPuntuacion()` para actualizar la pantalla.
+### 4. Game Over  
+- Si el usuario se pasa de 7,5 puntos, el juego termina y se muestra un mensaje de Game Over, además el usuario no puede seguir pidiendo cartas.
 
-5. ### Game Over  
-   ```ts
-   if (puntuacion > 7.5) {
-     document.getElementById('message')!.textContent = 'Game Over';
-     document.getElementById('giveCard')!.setAttribute('disabled', 'true');
-   }
 ### 5. Me planto
 
 - Añade un botón para que el usuario pueda plantarse.
@@ -120,6 +107,6 @@ Arranca la aplicación con la sandbox de **TypeScript**.
 
 ---
 
-## 🎁 Apartado opcional: “¿Qué habría pasado?”
+## Apartado opcional: “¿Qué habría pasado?”
 
 - Añade un botón **"¿Y si…?"** que, al pulsarlo, simule repartir cartas hasta el final y muestre la puntuación hipotética que habría obtenido el usuario.  
