@@ -7,9 +7,15 @@
     <title>CARD GAME</title>
   </head>
   <body>
-    <div id="app">
-      <h1>CARD GAME</h1>
-      <h2>Get as close as possible to 7.5 score. Be careful, if you overdo it... you lose</h2>
+    <div id="header">
+      <div id="game-title">
+        <h1>CARD GAME</h1>
+      </div>
+      <div id="instructions">
+        <h2 class="instructions">Get as close as possible to 7.5 score. Be careful, if you overdo it... you lose</h2>
+      </div>
+    </div>
+    <div id="playing-section">
       <div id="points">0</div>
       <button id="giveCard">Play</button>
       <div>
@@ -20,9 +26,9 @@
         <button id="playAgain" disabled>Play Again</button>
         <button id="whatIf" disabled>What if?</button>
       </div>
-      <div>
-        <h2 id="message"></h2>
-      </div>
+    </div>
+    <div id="footer">
+      <h2 id="message"></h2>
     </div>
     <script type="module" src="/src/main.ts"></script>
   </body>

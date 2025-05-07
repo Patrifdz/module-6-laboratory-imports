@@ -1,11 +1,9 @@
 :root {
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   font-weight: 400;
-
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
+  background-color: #4b4453;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -20,21 +18,36 @@
 body {
   margin: 0;
   display: flex;
-  place-items: center;
-  min-width: 100vw;
+  flex-direction: column;
+  justify-content: space-around;
+  width: 100dvw;
   height: 100dvh;
   font-family: 'MyFont';
   background-color: beige;
 }
 
-h1 {
-  font-size:4em;
-  line-height: 1.1;
-  margin: 0.25em;
+#header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
 }
 
-h2#instructions {
-  font-size: 2em;
+#game-title {
+  margin-top: 3%;
+}
+
+#instructions {
+  width: fit-content;
+  padding: 5px 15px;
+  margin-bottom: 2rem;
+  font-size: 1.4rem;
+  border: 2px dotted #4b4453;
+}
+
+h1 {
+  font-size: 5rem;
 }
 
 h2#message {
@@ -42,9 +55,13 @@ h2#message {
   color: rgb(244, 130, 88);
 }
 
-#app {
-  max-width: 1280px;
-  margin: 0 auto;
+#playing-section {
+  /* background-color: lightcyan; */
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
   text-align: center;
 }
 
@@ -54,20 +71,24 @@ h2#message {
 
 button {
   font-family: 'MyFont';
-  font-size: 2em;
+  font-size: 2rem;
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 0.6em;
   margin: 0.25em;
   font-weight: bold;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
+  color: #4b4453;
 }
 
 button#giveCard {
   margin-bottom: 0.50em;
+  width: 200px;
+  display: flex;
+  justify-content: center;
 }
+
 button:hover {
   background-color: #d0d0d0;
   box-shadow: 0 4px 6px rgba(0,0,0,0.2);
@@ -77,16 +98,26 @@ button:hover {
   font-size: 3.2em;
   font-weight: bold;
   color: #4b4453;
+  margin: 2rem;
+  padding: 1rem 2rem;
+  border: 2px dotted #4b4453;
 }
 
 #imageCard {
-  width: 35%;
+  width: 60%;
   box-shadow: 0 8px 12px rgba(0,0,0,0.25);
-  cursor: pointer;
 }
 
 div#optionButtons {
-  margin-left: 2em;
+  margin: 2rem;
+}
+
+#footer {
+  /* background-color: lightyellow; */
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  margin-bottom: 2%;
 }
 
 @media (prefers-color-scheme: light) {
