@@ -82,6 +82,13 @@ button {
   color: #4b4453;
 }
 
+button:disabled {
+  opacity: 0.6;           
+  background-color: #ccc;     
+  color: #666;            
+  cursor: not-allowed;
+}
+
 button#giveCard {
   margin-bottom: 0.50em;
   width: 200px;
