@@ -8,8 +8,7 @@ interface MessageOnStanding {
   }
 // Variables que se van a usar:
 let userPoints : number= 0;
-let card : number = 0;
-let message = "";
+
 const typeMessage : MessageOnStanding = {
     messageFor4 : "Has sido muy conservador",
     messageFor5 : "Te ha entrado el canguelo eh?",
@@ -30,13 +29,16 @@ const whatIfButton = document.getElementById("whatIf");
 const randomNum = ( ) => Math.floor(Math.random() *10) +1;
 
 // Función que genera la carta dependiendo del número aleatorio. Cartas de la 1 a la 7 y, si es mayor que 7, sumará 2 para crear el 10, 11 y 12:
-const getCard = (num : number ) : number =>  num>7 ?  card = num + 2 : card = num;
+const getCard = (num : number ) : number =>  num>7 ? num + 2 : num;
 
 // Función para conseguir el número de la carta. De la 1-7, mismo valor, mayor que 7, 0.50 puntos:
 const getPointsCard = (num : number ) : number => num>7 ? 0.50 : num;
 
 // Función para acumular puntos totales:
-const getTotalPoints = (points : number) : number =>  userPoints+= points;
+const getTotalPoints = (points : number) : number =>  userPoints+points;
+
+// Función para actualizar puntos del jugador (userPoints):
+const updateUserPoints = (newPoints : number) => newPoints >0 ? userPoints = newPoints : userPoints=0;
 
 // Función para imprimir los puntos: 
 const printPoints = ( ) => {
@@ -56,32 +58,28 @@ const showCard = ( card: number) : void =>  {
 }
 
 // Función para conseguir mensaje según los puntos acumulados:
-const getMessage = (totalPoints : number ) : void => {
+const getMessage = (totalPoints : number ) : string => {
     if (totalPoints > 7.5) {
-        message = typeMessage.messageForMore7andHalf;
+        return typeMessage.messageForMore7andHalf;
     } else {
         switch (totalPoints) {
             case 4 : 
-            message = typeMessage.messageFor4;
-            break;
+            return typeMessage.messageFor4;
             case 5: 
-            message = typeMessage.messageFor5;
-            break;
+            return typeMessage.messageFor5;
             case 6:
             case 7: 
-            message = typeMessage.messageFor6and7;
-            break;
+            return typeMessage.messageFor6and7;
             case 7.5: 
-            message = typeMessage.messageFor7andHalf;
-            break;
+            return typeMessage.messageFor7andHalf;
             default:
-            message = "";
+            return "";
         }
     } 
 }
 
 // Función para enseñar el mensaje: 
-const showMessage = ( ) : void => {
+const showMessage = (message : string ) : void => {
     if(messageUser instanceof HTMLHeadingElement) {
         messageUser.textContent = message;
     }
@@ -92,8 +90,8 @@ const checkPoints = ( ) => {
     getMessage(userPoints); 
            if (userPoints > 7.5) {
                 if(giveCardButton instanceof HTMLButtonElement && standButton instanceof HTMLButtonElement && playAgainButton instanceof HTMLButtonElement) {
-                    getMessage(userPoints);
-                    showMessage( );
+                    let message = getMessage(userPoints);
+                    showMessage(message);
                     giveCardButton.disabled = true;
                     standButton.disabled = true;
                     playAgainButton.disabled = false;
@@ -111,19 +109,13 @@ const resetPlayButton = ( ) => {
     }
 }
 
-// Función para resetear a valores iniciales:
-const resetInitialValues = ( ) => {
-    userPoints = 0;
-        card = 0;
-        message = "";
-}
-
 // Función para jugar: genera la carta según número aleatorio, enseña la carta, acumula los puntos, imprime los puntos , resetea el botón de jugar para que pase a "Give me a card" y los chequea para saber qué hacer dependiendo de la cantidad: 
 const play = ( ) => {
-    getCard(randomNum());
+    const card = getCard(randomNum());
     showCard(card);
-    let pointsCard : number = getPointsCard(card);
-    getTotalPoints(pointsCard);
+    const pointsCard : number = getPointsCard(card);
+    const totalPoints = getTotalPoints(pointsCard);
+    updateUserPoints(totalPoints);
     printPoints( );
     if(standButton instanceof HTMLButtonElement && playAgainButton instanceof HTMLButtonElement ) {
         standButton.disabled = false;
@@ -142,7 +134,8 @@ if (giveCardButton !== null && giveCardButton !== undefined && giveCardButton in
 if(standButton instanceof HTMLButtonElement) {
     standButton.addEventListener("click",( ) =>{
         checkPoints( );
-        showMessage( );
+        const message = getMessage(userPoints)
+        showMessage(message);
         standButton.disabled = true;
         if(whatIfButton instanceof HTMLButtonElement && giveCardButton instanceof HTMLButtonElement && playAgainButton instanceof HTMLButtonElement) {
             whatIfButton.disabled = false;
@@ -155,10 +148,11 @@ if(standButton instanceof HTMLButtonElement) {
 // AddEventListener para botón "Jugar de nuevo": resetea a los valores inciales, habilita botón "Give me a card" y deshabilita botones "¿Qué pasaría si...?", "Jugar de nuevo" y "Plantarse", y resetea el botón "Give me a card" para que indique "PLAY":
 if(playAgainButton instanceof HTMLButtonElement) {
     playAgainButton.addEventListener("click", ( ) => {
-        resetInitialValues( );
+        updateUserPoints(0);
         printPoints( );
-        showMessage( );
-        showCard(card);
+        const message = getMessage(userPoints);
+        showMessage(message);
+        showCard(userPoints);
         if(giveCardButton instanceof HTMLButtonElement && whatIfButton instanceof HTMLButtonElement && playAgainButton instanceof HTMLButtonElement && standButton instanceof HTMLButtonElement) {
             giveCardButton.disabled = false;
             whatIfButton.disabled = true;
@@ -172,7 +166,7 @@ if(playAgainButton instanceof HTMLButtonElement) {
 // AddEventListener para cuando se clicke en el botón "¿Qué pasaría si...?": genera carta con el valor de la función número aleatorio y la enseña:
 if(whatIfButton instanceof HTMLButtonElement) {
     whatIfButton.addEventListener("click", ( ) => {
-        getCard(randomNum( ));
+        const card = getCard(randomNum( ));
         showCard(card);
     });
 }
