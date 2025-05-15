@@ -1,29 +1,5 @@
 import "./style.css";
-interface MessageOnStanding {
-    messageFor4: string;
-    messageFor5: string;
-    messageFor6and7: string;
-    messageFor7andHalf: string;
-    messageForMore7andHalf: string;
-  }
-// Variables que se van a usar:
-let userPoints : number= 0;
-
-const typeMessage : MessageOnStanding = {
-    messageFor4 : "Has sido muy conservador",
-    messageFor5 : "Te ha entrado el canguelo eh?",
-    messageFor6and7 : "Casi casi...",
-    messageFor7andHalf : "¡Lo has clavado! ¡Enhorabuena!",
-    messageForMore7andHalf : "GAME OVER",
-}
-
-// Variables que enlazan con el id de cada elemento en el HTML:
-const pointsPrinted = document.getElementById("points");
-const giveCardButton = document.getElementById("giveCard");
-const messageUser = document.getElementById("message");
-const standButton = document.getElementById("stand");
-const playAgainButton = document.getElementById("playAgain");
-const whatIfButton = document.getElementById("whatIf");
+import { userPoints, typeMessage, pointsPrinted, giveCardButton, messageUser, standButton, playAgainButton, whatIfButton } from './model';
 
 // Función que genera el número aleatorio entre el 1 y el 9:
 const randomNum = ( ) => Math.floor(Math.random() *10) +1;
