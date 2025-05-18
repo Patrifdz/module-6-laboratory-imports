@@ -1,5 +1,7 @@
 import "./style.css";
-import { userPoints, typeMessage, pointsPrinted, giveCardButton, messageUser, standButton, playAgainButton, whatIfButton } from './model';
+import { userPoints, updateUserPoints, typeMessage, pointsPrinted, giveCardButton, messageUser, standButton, playAgainButton, whatIfButton } from './model';
+
+updateUserPoints(0);
 
 // Función que genera el número aleatorio entre el 1 y el 9:
 const randomNum = ( ) => Math.floor(Math.random() *10) +1;
@@ -12,9 +14,6 @@ const getPointsCard = (num : number ) : number => num>7 ? 0.50 : num;
 
 // Función para acumular puntos totales:
 const getTotalPoints = (points : number) : number =>  userPoints+points;
-
-// Función para actualizar puntos del jugador (userPoints):
-const updateUserPoints = (newPoints : number) => newPoints >0 ? userPoints = newPoints : userPoints=0;
 
 // Función para imprimir los puntos: 
 const printPoints = ( ) => {

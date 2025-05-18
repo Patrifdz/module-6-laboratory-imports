@@ -7,7 +7,10 @@ interface MessageOnStanding {
     messageForMore7andHalf: string;
   }
 
-export let userPoints : number= 0;
+export let userPoints : number;
+
+// Función para actualizar puntos del jugador (userPoints):
+export const updateUserPoints = (newPoints : number) => newPoints >0 ? userPoints = newPoints : userPoints=0;
 
 export const typeMessage : MessageOnStanding = {
     messageFor4 : "Has sido muy conservador",
