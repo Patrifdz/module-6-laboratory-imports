@@ -7,9 +7,10 @@ interface MessageOnStanding {
     messageForMore7andHalf: string;
   }
 
+// He quitado la asignación inicial del valor "0" de la variable, ya que puedo incializarla a "0" llamando a la función updateUserPoints(0) al comienzo del fichero "main.ts",  y de este modo separo la definición del dato de su inicialización.
 export let userPoints : number;
 
-// Función para actualizar puntos del jugador (userPoints):
+// Función para actualizar puntos del jugador (userPoints). Tengo que traer esta función al fichero "model.ts" ya que necesito que el import acceda a la variable a través de una función "setter" puesto que los imports no pueden acceder a valores inmutables, como sería si accede directamente a la variable "userPoints":
 export const updateUserPoints = (newPoints : number) => newPoints >0 ? userPoints = newPoints : userPoints=0;
 
 export const typeMessage : MessageOnStanding = {
@@ -20,10 +21,3 @@ export const typeMessage : MessageOnStanding = {
     messageForMore7andHalf : "GAME OVER",
 }
 
-// Variables que enlazan con el id de cada elemento en el HTML:
-export const pointsPrinted = document.getElementById("points");
-export const giveCardButton = document.getElementById("giveCard");
-export const messageUser = document.getElementById("message");
-export const standButton = document.getElementById("stand");
-export const playAgainButton = document.getElementById("playAgain");
-export const whatIfButton = document.getElementById("whatIf");
