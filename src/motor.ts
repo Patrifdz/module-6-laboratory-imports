@@ -1,5 +1,5 @@
 import { userPoints, updateUserPoints, typeMessage } from './model';
-import { pointsPrinted, giveCardButton, messageUser, standButton, playAgainButton, whatIfButton } from './main';
+import { giveCardButton, standButton, playAgainButton, printPoints, showMessage, showCard } from './ui';
 
 updateUserPoints(0);
 
@@ -15,22 +15,6 @@ export const getPointsCard = (num : number ) : number => num>7 ? 0.50 : num;
 // Función para acumular puntos totales:
 export const getTotalPoints = (points : number) : number =>  userPoints+points;
 
-// Función para imprimir los puntos: 
-export const printPoints = () => {
-    if(pointsPrinted instanceof HTMLDivElement) {
-        pointsPrinted.textContent = userPoints.toString( );
-    }
-};
-
-// Función para enseñar carta:
-export const showCard = ( card: number) : void =>  {
-    const imageCard = document.getElementById("imageCard");
-    if(imageCard instanceof HTMLImageElement) {
-        if(card <= 12 && card !== 0) {
-            imageCard.src=`./src/assets/images/${card}.jpg`;
-        } else imageCard.src=`./src/assets/images/back.jpg`;
-    } 
-}
 
 // Función para conseguir mensaje según los puntos acumulados:
 export const getMessage = (totalPoints : number ) : string => {
@@ -51,13 +35,6 @@ export const getMessage = (totalPoints : number ) : string => {
             return "";
         }
     } 
-}
-
-// Función para enseñar el mensaje: 
-export const showMessage = (message : string ) : void => {
-    if(messageUser instanceof HTMLHeadingElement) {
-        messageUser.textContent = message;
-    }
 }
 
 // Función para checkear los puntos y según los mismos, llamar a la función de generar mensaje o generar mensaje y enseñarlo si la puntuación acumulada es mayor de 7,50, ya que supondría que el jugador ha perdido. 
