@@ -1,5 +1,5 @@
-import { userPoints, updateUserPoints, typeMessage } from './model';
-import { giveCardButton, standButton, playAgainButton, printPoints, showMessage, showCard } from './ui';
+import { gameData, updateUserPoints, typeMessage } from './model';
+// import { giveCardButton, standButton, playAgainButton, printPoints, showMessage, showCard } from './ui';
 
 updateUserPoints(0);
 
@@ -13,7 +13,7 @@ export const getCard = (num : number ) : number =>  num>7 ? num + 2 : num;
 export const getPointsCard = (num : number ) : number => num>7 ? 0.50 : num;
 
 // Función para acumular puntos totales:
-export const getTotalPoints = (points : number) : number =>  userPoints+points;
+export const getTotalPoints = (points : number) : number =>  gameData.userPoints+points;
 
 
 // Función para conseguir mensaje según los puntos acumulados:
@@ -35,46 +35,4 @@ export const getMessage = (totalPoints : number ) : string => {
             return "";
         }
     } 
-}
-
-// Función para checkear los puntos y según los mismos, llamar a la función de generar mensaje o generar mensaje y enseñarlo si la puntuación acumulada es mayor de 7,50, ya que supondría que el jugador ha perdido. 
-export const checkPoints = ( ) => {
-    getMessage(userPoints); 
-           if (userPoints > 7.5) {
-                if(giveCardButton instanceof HTMLButtonElement && standButton instanceof HTMLButtonElement && playAgainButton instanceof HTMLButtonElement) {
-                    let message = getMessage(userPoints);
-                    showMessage(message);
-                    giveCardButton.disabled = true;
-                    standButton.disabled = true;
-                    playAgainButton.disabled = false;
-                    resetPlayButton( );
-                }
-        }
-}
-
-
-// Función para resetear botón "PLAY" / "Give me a card", según se quiera comenzar la partida o seguir jugando. Si el botón "Jugar de nuevo está habilitado", pondrá "PLAY", y si no "Give me a card":
-export const resetPlayButton = ( ) => {
-    if(playAgainButton instanceof HTMLButtonElement && giveCardButton instanceof HTMLButtonElement) {
-        if(playAgainButton.disabled) {
-                giveCardButton.textContent = "Play";
-        } else giveCardButton.textContent = "Give me a card";
-    }
-}
-
-
-// Función para jugar: genera la carta según número aleatorio, enseña la carta, acumula los puntos, imprime los puntos , resetea el botón de jugar para que pase a "Give me a card" y los chequea para saber qué hacer dependiendo de la cantidad: 
-export const play = ( ) => {
-    const card = getCard(randomNum());
-    showCard(card);
-    const pointsCard : number = getPointsCard(card);
-    const totalPoints = getTotalPoints(pointsCard);
-    updateUserPoints(totalPoints);
-    printPoints( );
-    if(standButton instanceof HTMLButtonElement && playAgainButton instanceof HTMLButtonElement ) {
-        standButton.disabled = false;
-        playAgainButton.disabled = false;
-    }
-    resetPlayButton( );
-    checkPoints( );
 }
