@@ -6,12 +6,15 @@ interface TypeMessage {
     messageFor7andHalf: string;
     messageForMore7andHalf: string;
   }
+  interface GameData {
+    userPoints: number,
+  }
 
-// He quitado la asignación inicial del valor "0" de la variable, ya que puedo incializarla a "0" llamando a la función updateUserPoints(0) al comienzo del fichero "main.ts",  y de este modo separo la definición del dato de su inicialización.
-export let userPoints : number;
+export const gameData : GameData = {
+  userPoints: 0,
+}
 
-// Función para actualizar puntos del jugador (userPoints). Tengo que traer esta función al fichero "model.ts" ya que necesito que el import acceda a la variable a través de una función "setter" puesto que los imports no pueden acceder a valores inmutables, como sería si accede directamente a la variable "userPoints":
-export const updateUserPoints = (newPoints : number) => newPoints >0 ? userPoints = newPoints : userPoints=0;
+export const updateUserPoints = (newPoints : number) => gameData.userPoints = newPoints;
 
 export const typeMessage : TypeMessage = {
     messageFor4 : "Has sido muy conservador",

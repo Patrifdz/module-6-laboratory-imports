@@ -1,5 +1,5 @@
 import "./style.css";
-import { userPoints, updateUserPoints } from './model';
+import { gameData, updateUserPoints } from './model';
 import { randomNum, getCard, getMessage, checkPoints, resetPlayButton, play } from './motor';
 import { giveCardButton, standButton, playAgainButton, whatIfButton, printPoints, showMessage, showCard } from './ui';
 
@@ -16,7 +16,7 @@ if (giveCardButton !== null && giveCardButton !== undefined && giveCardButton in
     const button = standButton;
          button.addEventListener("click",( ) =>{
          checkPoints( );
-         const message = getMessage(userPoints)
+         const message = getMessage(gameData.userPoints)
          showMessage(message);
          button.disabled = true;
          if(whatIfButton instanceof HTMLButtonElement && giveCardButton instanceof HTMLButtonElement && playAgainButton instanceof HTMLButtonElement) {
@@ -32,9 +32,9 @@ if (giveCardButton !== null && giveCardButton !== undefined && giveCardButton in
      playAgainButton.addEventListener("click", ( ) => {
          updateUserPoints(0);
          printPoints( );
-         const message = getMessage(userPoints);
+         const message = getMessage(gameData.userPoints);
          showMessage(message);
-         showCard(userPoints);
+         showCard(gameData.userPoints);
          if(giveCardButton instanceof HTMLButtonElement && whatIfButton instanceof HTMLButtonElement && playAgainButton instanceof HTMLButtonElement && standButton instanceof HTMLButtonElement) {
              giveCardButton.disabled = false;
              whatIfButton.disabled = true;
